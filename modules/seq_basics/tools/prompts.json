@@ -28,5 +28,18 @@
     "expected_tool": "dna_translate",
     "expected_args": { "seq": "AATGGCTAAA", "start": 1, "frame": 1 },
     "notes": "Tests the AI's ability to map natural language coordinate descriptions to start/end parameters."
+  },
+  {
+    "prompt": "Take these candidate guides for BRCA1 in human cells using SpCas9 and PX459 for a knockout, and run an off-target analysis to find the safest one.",
+    "expected_tool": "analyze_off_targets",
+    "expected_args": {
+      "candidate_gRNAs": [],
+      "organism": "human",
+      "cas_variant": "SpCas9",
+      "target_gene": "BRCA1",
+      "edit_type": "knockout",
+      "kit_choice": "PX459"
+    },
+    "notes": "Tests if Gemini correctly maps the pass-through variables from a natural language prompt."
   }
 ]
