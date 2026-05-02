@@ -1,0 +1,125 @@
+[
+  {
+    "prompt": "What is the reverse complement of ATGCGATCG?",
+    "expected_tool": "dna_reverse_complement",
+    "expected_args": { "seq": "ATGCGATCG" },
+    "notes": "Basic raw sequence input."
+  },
+  {
+    "prompt": "Give me the reverse complement of the pBR322 plasmid sequence.",
+    "expected_tool": "dna_reverse_complement",
+    "expected_args": { "seq": "pBR322" },
+    "notes": "Resource name input — the framework resolves pBR322 to its sequence automatically."
+  },
+  {
+    "prompt": "Translate the first 60 bases of pBR322 in reading frame 1.",
+    "expected_tool": "dna_translate",
+    "expected_args": { "seq": "pBR322", "start": 0, "end": 60, "frame": 1 },
+    "notes": "Uses coordinate slicing on a named resource."
+  },
+  {
+    "prompt": "Translate ATGGCTAGCTAG and show me the protein.",
+    "expected_tool": "dna_translate",
+    "expected_args": { "seq": "ATGGCTAGCTAG", "frame": 1 },
+    "notes": "Raw sequence input, default frame."
+  },
+  {
+    "prompt": "What protein does the sequence AATGGCTAAA encode if you start reading at position 1?",
+    "expected_tool": "dna_translate",
+    "expected_args": { "seq": "AATGGCTAAA", "start": 1, "frame": 1 },
+    "notes": "Tests the AI's ability to map natural language coordinate descriptions to start/end parameters."
+  },
+  {
+    "prompt": "Take these candidate guides for BRCA1 in human cells using SpCas9 and PX459 for a knockout, and run an off-target analysis to find the safest one.",
+    "expected_tool": "analyze_off_targets",
+    "expected_args": {
+      "candidate_gRNAs": [],
+      "organism": "human",
+      "cas_variant": "SpCas9",
+      "target_gene": "BRCA1",
+      "edit_type": "knockout",
+      "kit_choice": "PX459"
+    },
+    "notes": "Tests if Gemini correctly maps the pass-through variables from a natural language prompt."
+  },
+  {
+    "prompt": "Run an off-target safety scan on these candidate guides against the human genome for a SpCas9 knockout of BRCA1 in HEK293 cells using the PX459 kit.",
+    "expected_tool": "analyze_off_targets",
+    "expected_args": {
+      "candidate_gRNAs": [
+        {
+          "gRNA": "GAGTCCGCAGTCTTAGAGCT",
+          "score": 100.0
+        }
+      ],
+      "organism": "human",
+      "cas_variant": "SpCas9",
+      "target_gene": "BRCA1",
+      "cell_type": "HEK293",
+      "edit_type": "knockout",
+      "kit_choice": "PX459"
+    },
+    "notes": "Tests the standard human medical pipeline and verifies all pass-through variables map correctly."
+  },
+  {
+    "prompt": "Evaluate this list of guides for off-target effects in the E. coli genome before we build the pTarget plasmid for a Cas12a knockout of leuB in MG1655 cells.",
+    "expected_tool": "analyze_off_targets",
+    "expected_args": {
+      "candidate_gRNAs": [
+        {
+          "gRNA": "GGUGGUUCGUUGUUUGGCAU",
+          "score": 95.0
+        }
+      ],
+      "organism": "E. coli",
+      "cas_variant": "Cas12a",
+      "target_gene": "leuB",
+      "cell_type": "MG1655",
+      "edit_type": "knockout",
+      "kit_choice": "pTarget"
+    },
+    "notes": "Tests a bacterial system to ensure the LLM adapts to non-standard organisms, variants, and kits."
+  },
+  {
+    "prompt": "Please analyze these two guide RNAs for a prime editing insertion in the mouse genome targeting PCSK9 in hepatocytes using an AAV-donor plasmid to see which is safest.",
+    "expected_tool": "analyze_off_targets",
+    "expected_args": {
+      "candidate_gRNAs": [
+        {
+          "gRNA": "GAGTCCGCAGTCTTAGAGCT",
+          "score": 100.0
+        },
+        {
+          "gRNA": "GCATGCATGCATGCATGCAT",
+          "score": 90.0
+        }
+      ],
+      "organism": "mouse",
+      "cas_variant": "prime editing",
+      "target_gene": "PCSK9",
+      "cell_type": "hepatocytes",
+      "edit_type": "insertion",
+      "kit_choice": "AAV-donor"
+    },
+    "notes": "Tests multiple guide inputs and complex edit modalities (insertion via prime editing)."
+  },
+  {
+    "prompt": "Check these candidate guides for off-target effects in the Arabidopsis genome for a CasRx knockdown of PDS in protoplast cells using the pYao kit.",
+    "expected_tool": "analyze_off_targets",
+    "expected_args": {
+      "candidate_gRNAs": [
+        {
+          "gRNA": "AUGCGAUCGAUCGAUCGAUC",
+          "score": 88.0
+        }
+      ],
+      "organism": "Arabidopsis",
+      "cas_variant": "CasRx",
+      "target_gene": "PDS",
+      "cell_type": "protoplast",
+      "edit_type": "knockdown",
+      "kit_choice": "pYao"
+    },
+    "notes": "Tests plant biology variables and RNA-targeting Cas enzymes (CasRx)."
+  }
+]

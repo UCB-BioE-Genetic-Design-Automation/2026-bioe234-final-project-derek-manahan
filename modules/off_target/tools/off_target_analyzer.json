@@ -1,0 +1,102 @@
+{
+  "id": "org.bioe234.function.crispr.off_target_analyzer.v1",
+  "name": "Off-Target Analyzer",
+  "description": "Acts as a genomic safety checkpoint by mathematically evaluating the off-target risk of candidate gRNAs and isolating the safest sequence for construct building.",
+  "type": "function",
+  "keywords": [
+    "CRISPR",
+    "off-target",
+    "gRNA",
+    "safety checkpoint",
+    "Cas-OFFinder"
+  ],
+  "date_created": null,
+  "date_last_modified": null,
+  "inputs": [
+    {
+      "name": "candidate_gRNAs",
+      "type": "array",
+      "description": "List of scored candidate gRNA dictionaries from the Guide RNA Designer."
+    },
+    {
+      "name": "organism",
+      "type": "string",
+      "description": "Target organism genome to scan for off-target sites."
+    },
+    {
+      "name": "cas_variant",
+      "type": "string",
+      "description": "Pass-through variable specifying the Cas enzyme."
+    },
+    {
+      "name": "target_gene",
+      "type": "string",
+      "description": "Pass-through variable specifying the target gene."
+    },
+    {
+      "name": "cell_type",
+      "type": "string",
+      "description": "Pass-through variable specifying the cell type."
+    },
+    {
+      "name": "edit_type",
+      "type": "string",
+      "description": "Pass-through variable specifying the editing modality."
+    },
+    {
+      "name": "kit_choice",
+      "type": "string",
+      "description": "Pass-through variable specifying the experimental kit or plasmid."
+    }
+  ],
+  "outputs": [
+    {
+      "type": "object",
+      "description": "Structured JSON containing the safest guide_sequence, off_target_risk_profile, and pass-through metadata."
+    }
+  ],
+  "examples": [
+    {
+      "input": {
+        "candidate_gRNAs": [
+          {
+            "gRNA": "GAGTCCGCAGTCTTAGAGCT",
+            "score": 95.0
+          }
+        ],
+        "organism": "human",
+        "cas_variant": "SpCas9",
+        "target_gene": "BRCA1",
+        "cell_type": "HEK293",
+        "edit_type": "knockout",
+        "kit_choice": "PX459"
+      },
+      "output": {
+        "cas_variant": "SpCas9",
+        "target_gene": "BRCA1",
+        "organism": "human",
+        "cell_type": "HEK293",
+        "guide_sequence": "GAGTCCGCAGTCTTAGAGCT",
+        "edit_type": "knockout",
+        "kit_choice": "PX459",
+        "off_target_risk_profile": {
+          "total_off_targets": 1,
+          "mismatch_distribution": {
+            "0MM": 0,
+            "1MM": 0,
+            "2MM": 1,
+            "3MM": 0
+          }
+        }
+      }
+    }
+  ],
+  "execution_details": {
+    "language": "Python",
+    "source": "modules/crispr_pipeline/tools/off_target_analyzer.py",
+    "initialization": "initiate",
+    "execution": "run",
+    "disposal": null,
+    "mcp_name": "analyze_off_targets"
+  }
+}
